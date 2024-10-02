@@ -10,7 +10,6 @@
 
 ## Topologi
 
-Berikut topologi yang dibuat
 ![Screenshot 2024-10-01 011026](https://github.com/user-attachments/assets/d6c00f38-a6c2-4c5b-b6c1-010b94d2f882)
 
 
@@ -112,6 +111,27 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 192.234.2.1
 ```
+
+* Setup Server
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install bind9 -y
+
+```
+
+* Setup Client
+```
+echo nameserver `192.168.122.1` > /etc/resolv.conf
+
+```
+
+* Setup Client
+```
+echo nameserver `192.168.122.1` > /etc/resolv.conf
+
+```
+
 
 ## 1. Lakukan setup diatas
 
