@@ -111,6 +111,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 192.234.2.1
 ```
+###  Bashrc
 
 * Setup Server
 ```
