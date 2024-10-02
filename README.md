@@ -8,12 +8,10 @@
 
 # Laporan Resmi praktikum Jarkom Modul 2
 ## Daftar Isi
-1. [Laporan Resmi](#Laporan-Resmi)
-2. [Daftar Isi](#Daftar-Isi)
-3. [Topologi](#Topologi)
-4. [Config](#SetupConfig)
-5. [Bashrc](#Bashrc)
-6. [Soal 1](#Soal-1)
+1. [Topologi](#Topologi)
+2. [Setup Config](#SetupConfig)
+3. [Bashrc](#Bashrc)
+4. [Soal 1](#Soal-1)
    
 ## Topologi
 
