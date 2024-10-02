@@ -12,6 +12,17 @@
 2. [Setup Config](#Setup-Config)
 3. [Bashrc](#Bashrc)
 4. [Soal 1](#Soal-1)
+5. [Soal 2](#Soal-2)
+6. [Soal 3](#Soal-3)
+7. [Soal 4](#Soal-4)
+8. [Soal 5](#Soal-5)
+9. [Soal 6](#Soal-6)
+10. [Soal 7](#Soal-7)
+11. [Soal 8](#Soal-8)
+12. [Soal 9](#Soal-9)
+13. [Soal 10](#Soal-10)
+14. [Soal 11](#Soal-11)
+15. [Soal 12](#Soal-12)
    
 ## Topologi
 
@@ -141,7 +152,7 @@ echo nameserver `192.168.122.1` > /etc/resolv.conf
 
 ## Soal 1
 
-*Lakukan setup diatas
+* Lakukan setup diatas
 * Masukkan `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.234.0.0/16` pada baris bawah file `nano /root/.bashrc` 
 * Kemudian apabila `cat /etc/resolv.conf` maka akan keluar nameserver seperti dibawah
 
@@ -242,7 +253,7 @@ service bind9 restart
 
 
 ## Soal 4
-Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com
+> Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com
 
 * Buatlah domain, disini saya memakai `sriwijaya4.bashrc` kemudian isi config seperti dibawah
 
@@ -297,6 +308,20 @@ service bind9 restart
 ## Soal 6 
 > Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
 
+## Soal 7
+> isi soal
 
+## Soal 8 
+> isi soal
 
+## Soal 9 
+> isi soal
 
+## Soal 10 
+> isi soal
+
+## Soal 11 
+> isi soal
+
+## Soal 12
+> isi soal
