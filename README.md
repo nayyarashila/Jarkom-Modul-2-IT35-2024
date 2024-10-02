@@ -253,3 +253,20 @@ service bind9 restart
 * Jalankan menggunakan command `./sriwijaya4.bashrc`
 * Kemudian jalankan `ping rujapala.it35.com`
 
+
+## 5. Ping domain seluruh komputer (client) yang berada di Nusantara
+
+* Untuk tes lakukan `ping google.com`
+  
+ ![Screenshot 2024-10-02 221020](https://github.com/user-attachments/assets/530a1715-3606-4a5e-b7c7-864a2607763f)
+
+* Kemudian coba pada client, disini saya memakai IP Sriwijaya yaitu `192.234.1.3`
+  
+![Screenshot 2024-10-02 220935](https://github.com/user-attachments/assets/92bec5c1-35e6-4668-a1af-51bbbb5454c1)
+
+
+## 6. Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
+
+
+
+
