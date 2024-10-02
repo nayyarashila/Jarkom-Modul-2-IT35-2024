@@ -7,7 +7,14 @@
 
 
 # Laporan Resmi praktikum Jarkom Modul 2
-
+## Daftar Isi
+1. [Laporan Resmi](#Laporan-Resmi)
+2. [Daftar Isi](#Daftar-Isi)
+3. [Topologi](#Topologi)
+4. [Config](#SetupConfig)
+5. [Bashrc](#Bashrc)
+6. [Soal 1](#Soal-1)
+   
 ## Topologi
 
 ![Screenshot 2024-10-01 011026](https://github.com/user-attachments/assets/d6c00f38-a6c2-4c5b-b6c1-010b94d2f882)
@@ -111,7 +118,7 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 192.234.2.1
 ```
-###  Bashrc
+##  Bashrc
 
 * Setup Server
 ```
@@ -134,10 +141,10 @@ echo nameserver `192.168.122.1` > /etc/resolv.conf
 ```
 
 
-## 1. Lakukan setup diatas
+## Soal 1
 
+*Lakukan setup diatas
 * Masukkan `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.234.0.0/16` pada baris bawah file `nano /root/.bashrc` 
-
 * Kemudian apabila `cat /etc/resolv.conf` maka akan keluar nameserver seperti dibawah
 
 ![image](https://github.com/user-attachments/assets/fa728a39-dc6d-426d-a73a-1efff7583ac3)
@@ -191,7 +198,8 @@ service bind9 restart
 
 ![Screenshot 2024-10-02 215907](https://github.com/user-attachments/assets/ac19c9d4-4f3b-42b0-af6c-1180b3ecc7c4)
 
-## 3. Domain lain yaitu pasopati.xxxx.com dengan alias www.pasopati.xxxx.com yang mengarah ke Kotalingga
+## Soal 3
+> Domain lain yaitu pasopati.xxxx.com dengan alias www.pasopati.xxxx.com yang mengarah ke Kotalingga
 
 * Buatlah domain, disini saya memakai `sriwijaya3.bashrc` kemudian isi config seperti dibawah
 ```
@@ -235,7 +243,8 @@ service bind9 restart
 ![Screenshot 2024-10-01 230103](https://github.com/user-attachments/assets/e80e22df-5b97-43b0-a524-4842b8e1ec89)
 
 
-## 4. Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com
+## Soal 4
+Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com
 
 * Buatlah domain, disini saya memakai `sriwijaya4.bashrc` kemudian isi config seperti dibawah
 
@@ -275,7 +284,8 @@ service bind9 restart
 * Kemudian jalankan `ping rujapala.it35.com`
 
 
-## 5. Ping domain seluruh komputer (client) yang berada di Nusantara
+## Soal 5 
+> Ping domain seluruh komputer (client) yang berada di Nusantara
 
 * Untuk tes lakukan `ping google.com`
   
@@ -286,7 +296,8 @@ service bind9 restart
 ![Screenshot 2024-10-02 220935](https://github.com/user-attachments/assets/92bec5c1-35e6-4668-a1af-51bbbb5454c1)
 
 
-## 6. Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
+## Soal 6 
+> Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
 
 
 
