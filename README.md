@@ -309,19 +309,220 @@ service bind9 restart
 > Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
 
 ## Soal 7
-> isi soal
+> Membuat DNS Slave di Majapahit untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke Sriwijaya
+
+* Sriwijaya
+```
+  echo 'zone "sudarsana.it35.com" {
+        type master;
+        file "/etc/bind/jarkom/sudarsana.it35.com";
+        allow-transfer { 192.234.2.2; };
+        also-notify { 192.234.2.2; };
+};' > /etc/bind/named.conf.local
+
+echo 'zone "pasopati.it35.com" {
+        type master;
+        file "/etc/bind/jarkom/pasopati.it35.com";
+        also-notify { 192.234.2.2; };
+        allow-transfer { 192.234.2.2; };
+
+};' >> /etc/bind/named.conf.local
+
+echo 'zone "rujapala.it35.com" {
+        type master;
+        file "/etc/bind/jarkom/rujapala.it35.com";
+        also-notify { 192.234.2.2; };
+        allow-transfer { 192.234.2.2; }; 
+   
+};' >>/etc/bind/named.conf.local
+```
+
+* Majapahit
+```
+echo 'zone "sudarsana.it35.com" {
+    type slave;
+    masters { 192.234.1.3; }; 
+    file "/var/lib/bind/sudarsana.it35.com";
+};
+
+zone "pasopati.it35.com" {
+    type slave;
+    masters { 192.234.1.3; }; 
+    file "/var/lib/bind/pasopati.it35.com";
+};
+
+zone "rujapala.it35.com" {
+    type slave;
+    masters { 192.234.1.3; }; 
+    file "/var/lib/bind/rujapala.it35.com";
+};'  > /etc/bind/named.conf.local
+```
+
 
 ## Soal 8 
-> isi soal
+> Membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu
+
+
+* Sriwijaya2 update
+```
+#!/bin/bash
+apt update
+apt install bind9 -y
+
+echo 'zone "sudarsana.it35.com" {
+	type master;
+	file "/etc/bind/jarkom/sudarsana.it35.com";
+};' > /etc/bind/named.conf.local
+
+mkdir /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/sudarsana.it35.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sudarsana.it35.com. root.sudarsana.it35.com. (
+                        2024100104      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sudarsana.it35.com.
+@       IN      A       192.234.2.3   ; IP Kotalingga
+www     IN      CNAME   sudarsana.it35.com.
+cakra   IN      A       192.234.2.5   ;' > /etc/bind/jarkom/sudarsana.it35.com
+
+service bind9 restart
+```
 
 ## Soal 9 
-> isi soal
+> Membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain panah.pasopati.xxxx.com dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias www.panah.pasopati.xxxx.com dan mendelegasikan subdomain tersebut ke Majapahit dengan alamat IP menuju radar di Kotalingga.
+
+* Sriwijaya
+```
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it35.com. root.pasopati.it35.com. (
+                        2023101001      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      pasopati.it35.com.
+@       IN      A       192.234.2.3
+www     IN      CNAME   pasopati.it35.com.
+ns1     IN      A       192.234.2.2     ; IP Majapahit
+panah   IN      NS      ns1' > /etc/bind/jarkom/pasopati.it35.com
+
+
+echo "options {
+    directory \"/var/cache/bind\";
+
+    allow-query { any; };
+    auth-nxdomain no;
+    listen-on-v6 { any; };
+};" > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+
+* Majapahit
+```
+echo "
+options {
+        directory \"/var/cache/bind\";
+        allow-query{any;};
+        auth-nxdomain no;    
+        listen-on-v6 { any; };
+};
+" > /etc/bind/named.conf.options
+
+echo '
+
+zone "panah.pasopati.it35.com"{
+        type master;
+        file "/etc/bind/panah/panah.pasopati.it35.com";
+};
+'>> /etc/bind/named.conf.local
+
+mkdir /etc/bind/panah
+
+echo "
+\$TTL    604800
+@       IN      SOA     panah.pasopati.it35.com. root.panah.pasopati.it35.com. (
+                        2021100401      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@               IN      NS      panah.pasopati.it35.com.
+@               IN      A       192.234.2.3       ;ip Kotalingga
+www             IN      CNAME   panah.pasopati.it35.com.
+" > /etc/bind/panah/panah.pasopati.it35.com
+service bind9 restart
+```
 
 ## Soal 10 
-> isi soal
+> Buatlah subdomain baru di subdomain panah yaitu log.panah.pasopati.xxxx.com serta aliasnya www.log.panah.pasopati.xxxx.com yang juga mengarah ke Kotalingga
+
+* majapahit
+```
+echo "
+\$TTL    604800
+@       IN      SOA     panah.pasopati.it35.com. root.panah.pasopati.it35.com. (
+                        2021100401      ; Serial
+                        604800         ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+@               IN      NS      panah.pasopati.it35.com.
+@               IN      A       192.234.2.3       ;
+www             IN      CNAME   panah.pasopati.it35.com.
+log             IN      A       192.234.2.3       ; 
+www.log         IN      CNAME   log.panah.pasopati.it35.com." > /etc/bind/panah/panah.pasopati.it35.com
+service bind9 restart
+```
 
 ## Soal 11 
-> isi soal
+>  Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit
+
+* majapahit
+```
+echo 'options {
+    directory "/var/cache/bind";
+
+    // If there is a firewall between you and nameservers you want
+    // to talk to, you may need to fix the firewall to allow multiple
+    // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+    // If your ISP provided one or more IP addresses for stable
+    // nameservers, you probably want to use them as forwarders.
+    // Uncomment the following block, and insert the addresses replacing
+    // the all-0s placeholder.
+    forwarders {
+        192.168.122.1;
+    };
+
+    //========================================================================
+    // If BIND logs error messages about the root key being expired,
+    // you will need to update your keys.  See https://www.isc.org/bind-keys
+    //========================================================================
+    //dnssec-validation auto;
+
+    allow-query { any; };
+    auth-nxdomain no;
+    listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+```
+
 
 ## Soal 12
 > isi soal
