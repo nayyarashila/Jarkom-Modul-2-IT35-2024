@@ -302,6 +302,38 @@ service bind9 restart
 ## Soal 6 
 > Pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga
 
+* Sriwijaya
+```
+echo 'zone "2.234.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/2.234.192.in-addr.arpa";
+};' >> /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/2.234.192.in-addr.arpa
+
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it35.com. root.pasopati.it35.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+2.234.192.in-addr.arpa.   IN      NS      pasopati.it35.com.
+4                       IN      PTR     pasopati.it35.com.
+' > /etc/bind/jarkom/2.234.192.in-addr.arpa
+
+service bind9 restart
+```
+Testing
+
+![Screenshot 2024-10-03 002649](https://github.com/user-attachments/assets/26aefae0-3387-4e9a-a22a-a591d65ba14f)
+
 ## Soal 7
 > Membuat DNS Slave di Majapahit untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke Sriwijaya
 
@@ -351,7 +383,8 @@ zone "rujapala.it35.com" {
     file "/var/lib/bind/rujapala.it35.com";
 };'  > /etc/bind/named.conf.local
 ```
-
+Testing
+service bind9 stop di Sriwijaya, tapi tetep bisa ping
 
 ## Soal 8 
 > Membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu
@@ -391,6 +424,8 @@ cakra   IN      A       192.234.2.5   ;' > /etc/bind/jarkom/sudarsana.it35.com
 
 service bind9 restart
 ```
+Testing
+ping cakra.sudarsana.it35.com lupa belum di ss
 
 ## Soal 9 
 > Membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain panah.pasopati.xxxx.com dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias www.panah.pasopati.xxxx.com dan mendelegasikan subdomain tersebut ke Majapahit dengan alamat IP menuju radar di Kotalingga.
@@ -462,11 +497,14 @@ www             IN      CNAME   panah.pasopati.it35.com.
 " > /etc/bind/panah/panah.pasopati.it35.com
 service bind9 restart
 ```
+Testing
+![Screenshot 2024-10-03 195153](https://github.com/user-attachments/assets/2df28f89-08be-44f3-9557-940f3efac68d)
+
 
 ## Soal 10 
 > Buatlah subdomain baru di subdomain panah yaitu log.panah.pasopati.xxxx.com serta aliasnya www.log.panah.pasopati.xxxx.com yang juga mengarah ke Kotalingga
 
-* majapahit
+* Majapahit
 ```
 echo "
 \$TTL    604800
@@ -484,11 +522,13 @@ log             IN      A       192.234.2.3       ;
 www.log         IN      CNAME   log.panah.pasopati.it35.com." > /etc/bind/panah/panah.pasopati.it35.com
 service bind9 restart
 ```
+Testing
+![Screenshot 2024-10-03 213932](https://github.com/user-attachments/assets/f5b6ba97-954d-4fb3-b015-2645bae6e02e)
 
 ## Soal 11 
 >  Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit
 
-* majapahit
+* Majapahit
 ```
 echo 'options {
     directory "/var/cache/bind";
@@ -516,7 +556,253 @@ echo 'options {
     listen-on-v6 { any; };
 };' > /etc/bind/named.conf.options
 ```
-
+Testing
+![Screenshot 2024-10-03 215853](https://github.com/user-attachments/assets/8723f76e-460c-47c1-8b37-47888a6be878)
 
 ## Soal 12
-> isi soal
+> Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache
+client
+```
+apt-get update
+apt-get install lynx -y
+```
+
+kotalingga
+```
+apt-get update
+apt-get install lynx -y
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install unzip -y
+apt-get install php -y
+apt-get install wget -y
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/it35.conf
+rm /etc/apache2/sites-enabled/000-default.conf
+echo '
+<VirtualHost *:8080>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+' > /etc/apache2/sites-available/it35.conf
+echo 'Listen 80
+Listen 8080
+
+<IfModule ssl_module>
+    Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+    Listen 443
+</IfModule>
+' > /etc/apache2/ports.conf
+a2dissite 000-default.conf
+a2ensite it35.conf
+service apache2 reload
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
+unzip lb.zip -d lb
+mv ./lb/worker/index.php /var/www/html/index.php
+service apache2 restart
+```
+testing
+![Screenshot 2024-10-04 013621](https://github.com/user-attachments/assets/23b06428-4bec-4a86-9ce9-263ff911ac88)
+
+## Soal 13
+> Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan Kotalingga, Bedahulu, Tanjungkulai sebagai worker dan Solok sebagai Load Balancer menggunakan apache sebagai web server nya dan load balancer nya.
+
+Sriwijaya dan Majapahit
+```
+/etc/resolv.conf tambah nameserver 192.234.1.4
+```
+
+Semua webserver
+```
+apt-get update
+apt-get install lynx -y
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install unzip -y
+apt-get install php -y
+apt-get install wget -y
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/it35.conf
+rm /etc/apache2/sites-enabled/000-default.conf
+echo '
+<VirtualHost *:8080>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+' > /etc/apache2/sites-available/it35.conf
+echo 'Listen 80
+Listen 8080
+
+<IfModule ssl_module>
+    Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+    Listen 443
+</IfModule>
+' > /etc/apache2/ports.conf
+a2dissite 000-default.conf
+a2ensite it35.conf
+service apache2 reload
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
+unzip lb.zip -d lb
+mv ./lb/worker/index.php /var/www/html/index.php
+service apache2 restart
+```
+
+Solok
+```
+apt-get update
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install php -y
+
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_balancer
+a2enmod lbmethod_byrequests
+
+service apache2 start
+echo '
+<VirtualHost *:80>
+    <Proxy balancer://serverpool>
+        BalancerMember http://192.234.2.3/
+        BalancerMember http://192.234.2.5/
+        BalancerMember http://192.234.2.4/
+        ProxySet lbmethod=byrequests
+    </Proxy>
+    ProxyPass / balancer://serverpool/
+    ProxyPassReverse / balancer://serverpool/
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+
+service apache2 restart
+```
+Testing
+
+https://github.com/user-attachments/assets/b7ccb87d-efbc-422d-815d-03802e8c2e14
+
+## Soal 14
+> Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya diubah menjadi nginx.
+
+semua server
+```
+apt-get update
+apt-get install dnsutils -y
+apt-get install lynx -y
+apt-get install nginx -y
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install php -y 
+apt-get install php-fpm -y
+
+service php7.0-fpm start
+service nginx start
+
+wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O lb.zip
+unzip lb.zip -d lb
+
+mv ./lb/worker/index.php /var/www/html/index.php
+rm -rf ./lb
+rm lb.zip
+
+echo 'server {
+    listen 8082;
+    root /var/www/html;
+
+    index index.php index.html index.htm;
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+    }
+
+    location ~ /\.ht {
+     deny all;
+    }
+
+    error_log /var/log/nginx/jarkom-it35_error.log;
+    access_log /var/log/nginx/jarkom-it35_access.log;
+}' > /etc/nginx/sites-available/it35
+
+ln -s /etc/nginx/sites-available/it35 /etc/nginx/sites-enabled
+rm /etc/nginx/sites-enabled/default
+service nginx restart
+```
+
+solok
+```
+apt-get update
+apt-get install dnsutils -y
+apt-get install lynx -y
+apt-get install nginx -y
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install php -y 
+apt-get install php-fpm -y
+
+service php7.0-fpm start
+service nginx start
+
+echo 'upstream webserver  {
+    ip_hash;
+    server 192.234.2.3:8082; 
+    server 192.234.2.5:8083; 
+    server 192.234.2.4:8084;
+}
+
+server {
+  listen 8082;
+  server_name 192.234.2.3;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+  listen 8083;
+  server_name 192.234.2.5;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}
+
+server {
+  listen 8084;
+  server_name 192.234.2.4;
+
+  location / {
+    proxy_pass http://webserver;
+  }
+}' > /etc/nginx/sites-available/it35
+
+ln -s /etc/nginx/sites-available/it35 /etc/nginx/sites-enabled
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+Testing
+
+![Screenshot 2024-10-04 030916](https://github.com/user-attachments/assets/e793d648-7e2d-4147-ae39-9979accb5fac)
+
+![Screenshot 2024-10-04 030951](https://github.com/user-attachments/assets/ea7f678b-2898-42fd-ac4e-a75293f7ef48)
+
+![Screenshot 2024-10-04 031014](https://github.com/user-attachments/assets/98cc00ea-748c-4391-a6c7-d791c84fc8c6)
+
