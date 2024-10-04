@@ -497,7 +497,9 @@ www             IN      CNAME   panah.pasopati.it35.com.
 " > /etc/bind/panah/panah.pasopati.it35.com
 service bind9 restart
 ```
+
 Testing
+
 ![Screenshot 2024-10-03 195153](https://github.com/user-attachments/assets/2df28f89-08be-44f3-9557-940f3efac68d)
 
 
@@ -522,7 +524,9 @@ log             IN      A       192.234.2.3       ;
 www.log         IN      CNAME   log.panah.pasopati.it35.com." > /etc/bind/panah/panah.pasopati.it35.com
 service bind9 restart
 ```
+
 Testing
+
 ![Screenshot 2024-10-03 213932](https://github.com/user-attachments/assets/f5b6ba97-954d-4fb3-b015-2645bae6e02e)
 
 ## Soal 11 
@@ -556,18 +560,21 @@ echo 'options {
     listen-on-v6 { any; };
 };' > /etc/bind/named.conf.options
 ```
+
 Testing
+
 ![Screenshot 2024-10-03 215853](https://github.com/user-attachments/assets/8723f76e-460c-47c1-8b37-47888a6be878)
 
 ## Soal 12
 > Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache
-client
+
+* client
 ```
 apt-get update
 apt-get install lynx -y
 ```
 
-kotalingga
+* kotalingga
 ```
 apt-get update
 apt-get install lynx -y
@@ -606,18 +613,20 @@ unzip lb.zip -d lb
 mv ./lb/worker/index.php /var/www/html/index.php
 service apache2 restart
 ```
+
 testing
+
 ![Screenshot 2024-10-04 013621](https://github.com/user-attachments/assets/23b06428-4bec-4a86-9ce9-263ff911ac88)
 
 ## Soal 13
 > Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan Kotalingga, Bedahulu, Tanjungkulai sebagai worker dan Solok sebagai Load Balancer menggunakan apache sebagai web server nya dan load balancer nya.
 
-Sriwijaya dan Majapahit
+* Sriwijaya dan Majapahit
 ```
 /etc/resolv.conf tambah nameserver 192.234.1.4
 ```
 
-Semua webserver
+* Semua webserver
 ```
 apt-get update
 apt-get install lynx -y
@@ -657,7 +666,7 @@ mv ./lb/worker/index.php /var/www/html/index.php
 service apache2 restart
 ```
 
-Solok
+* Solok
 ```
 apt-get update
 apt-get install apache2 -y
@@ -684,6 +693,7 @@ echo '
 
 service apache2 restart
 ```
+
 Testing
 
 https://github.com/user-attachments/assets/b7ccb87d-efbc-422d-815d-03802e8c2e14
@@ -691,7 +701,7 @@ https://github.com/user-attachments/assets/b7ccb87d-efbc-422d-815d-03802e8c2e14
 ## Soal 14
 > Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya diubah menjadi nginx.
 
-semua server
+* semua server
 ```
 apt-get update
 apt-get install dnsutils -y
@@ -743,7 +753,7 @@ rm /etc/nginx/sites-enabled/default
 service nginx restart
 ```
 
-solok
+* solok
 ```
 apt-get update
 apt-get install dnsutils -y
@@ -798,6 +808,7 @@ rm /etc/nginx/sites-enabled/default
 
 service nginx restart
 ```
+
 Testing
 
 ![Screenshot 2024-10-04 030916](https://github.com/user-attachments/assets/e793d648-7e2d-4147-ae39-9979accb5fac)
