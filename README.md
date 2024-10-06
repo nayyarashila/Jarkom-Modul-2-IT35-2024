@@ -139,8 +139,7 @@ apt-get install bind9 -y
 
 * Setup Client
 ```
-echo nameserver `192.168.122.1` > /etc/resolv.conf
-
+echo -e "nameserver 192.234.1.3\nnameserver 192.234.2.2" > /etc/resolv.conf
 ```
 
 
