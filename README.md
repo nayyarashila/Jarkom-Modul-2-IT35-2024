@@ -159,7 +159,7 @@ echo nameserver `192.168.122.1` > /etc/resolv.conf
 
 ## 2. Sebuah domain yang mengarah ke Solok dengan alamat sudarsana.xxxx.com 
 
-* Buatlah domain, disini saya memakai `Sriwijaya2.bashrc` kemudian isi config seperti dibawah
+* Buatlah domain, disini saya memakai `sriwijaya2.sh` kemudian isi config seperti dibawah
 
 ```
 #!/bin/bash
@@ -188,13 +188,13 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      sudarsana.it35.com.
-@       IN      A         10.77.2.4   ; IP Kotalingga
-www     IN      CNAME   sudarsana.it27.com.' > /etc/bind/jarkom/sudarsana.it35.com
+@       IN      A       192.234.1.4   ; IP Solok
+www     IN      CNAME   sudarsana.it35.com.' > /etc/bind/jarkom/sudarsana.it35.com
 
 service bind9 restart
 ```
 
-* Jalankan menggunakan command `./Sriwijaya2.bashrc`
+* Jalankan menggunakan command `./sriwijaya2.sh`
 * Kemudian jalankan `ping sudarsana.it35.com`
 
 --Result--
